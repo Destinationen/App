@@ -1,5 +1,6 @@
 build/android/*
 build/iphone/*
+tiapp.xml
 .DS_Store
 tmp
 *.class
