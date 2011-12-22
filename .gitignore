@@ -1,7 +1,12 @@
 build/android/*
 build/iphone/*
+
+build.log
 tiapp.xml
+
+*.swp
 .DS_Store
+
 tmp
 *.class
 *.pyc
