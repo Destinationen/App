@@ -1,7 +1,7 @@
 // this sets the background color of the master UIView (when there are no windows/tab groups on it)
 Titanium.UI.setBackgroundColor('#000');
 
-this.Date = require('date').Date;
+this.Date = require('/app/lib/date').Date;
 
 var MapWindow = require('/window/Map').Window;
 var map = new MapWindow();
@@ -30,8 +30,8 @@ var mainWindow = Titanium.UI.createWindow({
 
 
 var mainView = Titanium.UI.createView({
-    width: 'auto',
-    height: 'auto',
+    width: '100%',
+    height: '100%',
     top: 45
 });
 
@@ -60,24 +60,24 @@ mainView.add(map);
 
 
 
-Ti.App.addEventListener('menu.click', function(btn){
-    
+Ti.App.addEventListener('menu.click', function(data){
+   Ti.API.info('PLEASE!!!!!!!!! ' + data.btn); 
     // Remove All sub-views
-    mainView.remove(taxi);
-    mainView.remove(map);
-    
+    //mainView.remove(taxi);
+    //mainView.remove(map);
+    var btn = data.btn;
     // Add tha one we wanted
     switch(btn)
     {
         case 'map':
             Ti.API.info('Switch to Window Map');
-            //taxi.hide();
             mainView.add(map);
+            mainView.remove(taxi);
         break;
         case 'taxi':
             Ti.API.info('Switch to Window Taxi');
-            //taxi.open();
             mainView.add(taxi);
+            mainView.remove(map);
         break;
     }
 });
