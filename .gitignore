@@ -6,6 +6,7 @@ tiapp.xml
 
 *.swp
 .DS_Store
+.fastdev.lock
 
 tmp
 *.class
