@@ -57,28 +57,48 @@ mainWindow.add(logo);
 // Open this as default
 mainView.add(map);
 
+//taxi.hide();
+//mainView.add(taxi);
+
+//taxi.hide();
 
 
 
 Ti.App.addEventListener('menu.click', function(data){
-   Ti.API.info('PLEASE!!!!!!!!! ' + data.btn); 
-    // Remove All sub-views
-    //mainView.remove(taxi);
-    //mainView.remove(map);
+    Ti.API.info('PLEASE!!!!!!!!! ' + data.btn); 
+ 
     var btn = data.btn;
-    // Add tha one we wanted
-    switch(btn)
-    {
-        case 'map':
-            Ti.API.info('Switch to Window Map');
-            mainView.add(map);
-            mainView.remove(taxi);
-        break;
-        case 'taxi':
-            Ti.API.info('Switch to Window Taxi');
-            mainView.add(taxi);
-            mainView.remove(map);
-        break;
+       
+    /**
+     * Search for the view we want to show,
+     * if it exists, it has been added before, then just show() it
+     * if not, this is the first time and it needs to be added.
+     */
+    if (mainView.children){
+        Ti.API.info('children is found for the mainView');
+        
+        var tmpIsFound = false;
+        var numChildViews = mainView.children.length;
+        for (var i=0; i < numChildViews; i++){
+            Ti.API.info(i + '/' + numChildViews + ': ' +mainView.children[i].id);
+            
+            if (mainView.children[i].id == btn){
+                mainView.children[i].show();
+                tmpIsFound = true;
+            } else {
+                mainView.children[i].hide();
+            }
+        }
+        
+        // The view was not found, then add it
+        if (tmpIsFound == false){
+            Ti.API.info('first time adding view');
+            mainView.add(eval(btn)); // Not very pretty, but it works...
+        }
+
+    } else {
+        Ti.API.info('no children :( this should never happen...');
+        mainView.add(eval(btn)); // Still not pretty, but...
     }
 });
 

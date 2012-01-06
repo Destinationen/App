@@ -75,6 +75,7 @@
         
         mainWindow = Titanium.UI.createView({
         //mainWindow = Titanium.UI.createWindow({
+            id: 'map'
         });
 
         /**
