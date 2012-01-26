@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<resources>
+    <string name="map">Karta</string>
+    <string name="taxi">Taxi</string>
+    <string name="taxi_copy">SV - Lorem ipsum dolor sit amet, consectetur adipiscing elit. In fringilla urna sed eros molestie in consectetur tellus ultrices. Etiam mollis interdum volutpat. In viverra, diam at elementum facilisis, urna felis laoreet sapien, eu mattis velit dui ut erat. In dictum blandit risus.</string>
+    <string name="carpool">Sammåk</string>
+    <string name="help">Hjälp</string>
+    <string name="timetable">Tidtabell</string>
+    <string name="about">Om</string>
+    <string name="about_copy">SV - Lorem ipsum dolor sit amet, consectetur adipiscing elit. In fringilla urna sed eros molestie in consectetur tellus ultrices. Etiam mollis interdum volutpat. In viverra, diam at elementum facilisis, urna felis laoreet sapien, eu mattis velit dui ut erat. In dictum blandit risus.</string>
+    <string name="line">Linje</string>
+    <string name="every_day">Alla dagar</string>
+    <string name="bus_station">Bussstation</string>
+</resources>
