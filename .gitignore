@@ -1,6 +1,9 @@
 build/android/*
 build/iphone/*
 
+Resources/fonts/*
+Resources/assets/images/icons/*
+
 build.log
 tiapp.xml
 
