@@ -3,69 +3,112 @@ Titanium.UI.setBackgroundColor('#000');
 
 this.Date = require('/app/lib/date').Date;
 
-var MapWindow = require('/window/Map').Window;
-var map = new MapWindow();
+// Counter, when its done, the loading is done.
+var loadCounter = 0;
+var loadTotal = 4;
+Ti.App.addEventListener('loading.done', function(){
+    loadCounter++;
+    
+    if (loadCounter == loadTotal){
+        //splash.close({transition:Ti.UI.iPhone.AnimationStyle.CURL_UP});
+        //mainWindow.open();
+        initApp();
+    }
+});
 
-var TaxiWindow = require('/window/Taxi').Window;
-var taxi = new TaxiWindow();
+/**
+ * Creates a minimum startup time
+ */
+var mt = 0;
+var timetowait = 3;
+mtimer = setInterval(function(){
+    mt++;
+    if (mt == timetowait){
+        clearInterval(mtimer);
+        Ti.App.fireEvent('loading.done');
+    }
+}, 1000);
 
 
-/*
-var image = Titanium.UI.createImageView({
-        url: 'header.jpg',
-        view.add(image)
-    });
-*/
+// This opens weblinks in a external browser
+// Move this to its own lib l8ter maybe
+Ti.App.addEventListener('weblink.click', function(e){
+    Ti.API.info('weblink.click ' + e.link);
+    Titanium.Platform.openURL( e.link );
+});
 
+// Define a bunch of windows and stuff
+var SplashWindow, splash, MapWindow, map, TimetableWindow, timetable, TaxiWindow, taxi, AboutWindow, about;
+
+MapWindow = require('/window/Map').Window;
+map = new MapWindow();
+
+TimetableWindow = require('/window/Timetable').Window;
+timetable = new TimetableWindow();
+
+TaxiWindow = require('/window/Taxi').Window;
+taxi = new TaxiWindow();
+
+AboutWindow = require('/window/About').Window;
+about = new AboutWindow();
+
+
+function initApp(){
+    splash.close({transition:Ti.UI.iPhone.AnimationStyle.CURL_UP});
+    mainWindow.open();
+
+    Ti.App.fireEvent('menu.click', {btn: 'map'});
+    Ti.App.fireEvent('menu.switch', {btn: 'map'});
+}
 
 var mainWindow = Titanium.UI.createWindow({
     id: 'MainWindow',
     title: 'MainWindow',
     navBarHidden: true,
-    backgroundColor: '#eaded0',
+    backgroundImage: 'images/Default.jpg',
+    width: '100%',
+    height: '100%',
     fullscreen: true
 });
 
-
-
+/*
+var mainView = Titanium.UI.createScrollView({
+    contentWidth: '100%',
+    contentHeight: '100%',
+    top: 45,
+    showVerticalScrollIndicator: true,
+    showHorizontalScrollIndicator: true,
+    visible: true, 
+});
+*/
 
 var mainView = Titanium.UI.createView({
     width: '100%',
     height: '100%',
+    backgroundImage: '/images/Default.jpg',
     top: 45
 });
 
 mainWindow.add(mainView);
 
 
-var MenuObj = require('/app/lib/Menu').Menu;    
+var MenuObj = require('/app/lib/Menu').Menu;
 var Menu = new MenuObj();
-var MenuView = Menu.view;
-mainWindow.add(MenuView);
+mainWindow.add(Menu);
 
 
 var logo = Titanium.UI.createView({
-    backgroundImage: 'images/funasfjallen.png',
-    width: 35,
-    height: 52,
+    backgroundImage: '/images/funasfjallen.png',
+    width: 40,
+    height: 60,
     top: 10,
     left: 10
 });
         
 mainWindow.add(logo);
 
-// Open this as default
-mainView.add(map);
-
-//taxi.hide();
-//mainView.add(taxi);
-
-//taxi.hide();
-
-
 
 Ti.App.addEventListener('menu.click', function(data){
-    Ti.API.info('PLEASE!!!!!!!!! ' + data.btn); 
  
     var btn = data.btn;
        
@@ -75,13 +118,9 @@ Ti.App.addEventListener('menu.click', function(data){
      * if not, this is the first time and it needs to be added.
      */
     if (mainView.children){
-        Ti.API.info('children is found for the mainView');
-        
         var tmpIsFound = false;
         var numChildViews = mainView.children.length;
         for (var i=0; i < numChildViews; i++){
-            Ti.API.info(i + '/' + numChildViews + ': ' +mainView.children[i].id);
-            
             if (mainView.children[i].id == btn){
                 mainView.children[i].show();
                 tmpIsFound = true;
@@ -102,4 +141,15 @@ Ti.App.addEventListener('menu.click', function(data){
     }
 });
 
-mainWindow.open();
+
+// Opens the startpage 
+//Ti.App.fireEvent('menu.click', {btn: 'about'});
+
+// This is a window, the others are accualy views, refacor this at some point!
+SplashWindow = require('/window/Splash').Window;
+splash = new SplashWindow();
+
+
+// Open the splash
+splash.open();
+

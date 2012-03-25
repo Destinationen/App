@@ -1,0 +1,29 @@
+/**
+ * This is the main css for the webViews
+ */
+
+/**
+ * "Teniers" Rubriker
+ * "Battista" Pris erbjudande
+ * "ScoutCond" Informativ text, rutor etc.
+ * "Scout-Light" Brödtext etc.
+ */
+
+body{
+    margin: 40px 20px 20px;
+}
+
+h1{
+    text-transform: uppercase;
+    font-family: Teniers;
+    font-weight: normal;
+
+    margin-bottom: 0;
+}
+
+p{
+    font-family: "Scout-Light";
+
+    margin-top: 0;
+}
+
