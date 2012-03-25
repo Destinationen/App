@@ -1,14 +1,29 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <resources>
+    <string name="loading">Laddar</string>
     <string name="map">Karta</string>
+
     <string name="taxi">Taxi</string>
-    <string name="taxi_copy">SV - Lorem ipsum dolor sit amet, consectetur adipiscing elit. In fringilla urna sed eros molestie in consectetur tellus ultrices. Etiam mollis interdum volutpat. In viverra, diam at elementum facilisis, urna felis laoreet sapien, eu mattis velit dui ut erat. In dictum blandit risus.</string>
+    <string name="taxi_copy">För att nå taxi i Funäsfjällen, ring:</string>
+
     <string name="carpool">Sammåk</string>
     <string name="help">Hjälp</string>
     <string name="timetable">Tidtabell</string>
+
     <string name="about">Om</string>
-    <string name="about_copy">SV - Lorem ipsum dolor sit amet, consectetur adipiscing elit. In fringilla urna sed eros molestie in consectetur tellus ultrices. Etiam mollis interdum volutpat. In viverra, diam at elementum facilisis, urna felis laoreet sapien, eu mattis velit dui ut erat. In dictum blandit risus.</string>
+    <string name="about_copy">Funäsfjällen är ett av sveriges största skidområde med 134 nedfarter på ett skidpass. Med skidbussen så kan du ta dig emellan de flesta av dom. Passa också på att använda skidbussen till att utnyttja de mer än 300 km preparerade längdspår som finns i området. I området kan du dessutom göra en mängd andra vinteraktiviteter som att rida, pimpla, isklättra, åka skoter, gå på tur eller nåt annat spännande. Om du vill ha tips och idéer så kan du gå in på vår hemsida funasfjallen.se eller ringa till vår turistbyrå på 0684 - 155 80</string>
+
     <string name="line">Linje</string>
     <string name="every_day">Alla dagar</string>
     <string name="bus_station">Bussstation</string>
+    <string name="map_departure_copy">När går bussen?</string>
+    <string name="map_directions_copy">Vägbeskrivning</string>
+
+    <string name="map_annotation_more">Klicka för mer information om din resa</string>
+    
+    <!--
+    Buttons
+    -->
+    <string name="search_btn">Sök</string>
+
 </resources>

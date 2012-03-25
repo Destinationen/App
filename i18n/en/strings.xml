@@ -1,14 +1,29 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <resources>
+    <string name="loading">Loading</string>
     <string name="map">Map</string>
+    
     <string name="taxi">Taxi</string>
-    <string name="taxi_copy">EN - Lorem ipsum dolor sit amet, consectetur adipiscing elit. In fringilla urna sed eros molestie in consectetur tellus ultrices. Etiam mollis interdum volutpat. In viverra, diam at elementum facilisis, urna felis laoreet sapien, eu mattis velit dui ut erat. In dictum blandit risus.</string>
+    <string name="taxi_copy">To call for a taxi, please dial:</string>
+    
     <string name="carpool">Car Pool</string>
     <string name="help">Help</string>
     <string name="timetable">Time Table</string>
+
     <string name="about">About</string>
-    <string name="about_copy">EN - Lorem ipsum dolor sit amet, consectetur adipiscing elit. In fringilla urna sed eros molestie in consectetur tellus ultrices. Etiam mollis interdum volutpat. In viverra, diam at elementum facilisis, urna felis laoreet sapien, eu mattis velit dui ut erat. In dictum blandit risus.</string>
+    <string name="about_copy">Funäsfjällen is one of Swedens largest ski areas with 134 ski slopes on one ski pass. By using the ski bus you can easily reach most of them. By using the ski bus when cross-country skiing in Funäsfjällens more than 300 kilometers of tracks, you reach further out on the mountain. In the area you can of course do lots of other things like horseback riding, ice-fishing, ice-climbing, or go snow mobiling. If you wan´t mare tips and ideas, please go to our web-site funasfjallen.se or call our tourist information on 0684 - 155 80</string>
+    
     <string name="line">Line</string>
     <string name="every_day">Every Day</string>
     <string name="bus_station">Bus Station</string>
+    <string name="map_departure_copy">When is sthe bus departing?</string>
+    <string name="map_directions_copy">Directions</string>
+    
+    <string name="map_annotaion_more">Click for more information about your trip</string>
+
+    <!--
+    Buttons
+    -->
+    <string name="search_btn">Search</string>
+
 </resources>
