@@ -1,12 +1,29 @@
 <html>
     <head>
+        <meta name="viewport" content="width=670px, initial-scale=0.46, maximum-scale=5, user-scalable=yes">
         <link rel="stylesheet" type="text/css" href="../assets/css/main.css" />
         <style type="text/css">
+
+            #wrapper{
+                width: 670px;
+                height: auto;
+
+                float: left;
+            }
+            
+            h2{
+                font-size: 2em;
+            }
 
             h3{
                 margin: 0;
                 padding: 0;
             }
+            
+            p{
+                font-size: 1.5em;
+            }
+
 
             .timetable_wrapper{
                 width: 660px;
@@ -17,7 +34,6 @@
             .timetable_table{
                 width: 650px;
 
-                font-size: 10px;
                 text-align: center;
             }
 
@@ -41,7 +57,6 @@
                 color: #fff;
 
                 font-family: Teniers;
-                font-size: 15px;
 
                 margin: 2px;
             }
@@ -99,7 +114,7 @@
             }
 
             .box p{
-                font-size: 10px;
+                font-size: 1em;
             }
 
             .box_header{
@@ -123,7 +138,8 @@
 
                 float: left;
 
-                font-size: 8px;
+                font-size: 1em;
+
             }
 
             .pusher{
@@ -135,196 +151,198 @@
         <script type="text/javascript" src="../assets/js/main.js"></script>
     </head>
     <body>
-        <h1>Tidtabell - SKidbuss</h1>
-        <p id="timetable_copy">Vintersäsongen 25 dec 2011 - 27 april 2012</p>
+        <div id="wrapper">
+            <h1>Tidtabell - SKidbuss</h1>
+            <p id="timetable_copy">Vintersäsongen 25 dec 2011 - 27 april 2012</p>
 
-        <img src="../assets/images/timetable_map.png" />
-        <div class="timetable_wrapper">
-            <table class="timetable_table">
-                <tr>
-                    <td class="td_title td_title_red"><h2>Linje 1</h2></td>
-                    <td class="td_title td_title_red" colspan="5"><h2>Tänndalslinjen</h2></td>
-                </tr>
-                <tr>
-                    <td class="td_leftCol"><span class="sub_header">HÅLLPLATSER</span><br /><span class="sub_header_extra">Angivna tider är tider då bussen tidigast passerar</span></td>
-                    <td class="td_everyday"><span class="sub_header">ALLA DAGAR</span></td>
-                    <td class="td_weekdays" colspan="2"><span class="sub_header">MÅNDAG-LÖRDAG helgfri</span><br /><span class="sub_header_extra">(Måndag-fredag samkörs med Länstrafikens buss)</span></td>
-                    <td class="td_sunday_season"><span class="sub_header">SÖNDAG helgdag</span><br /><span class="sub_header_extra">(hela säsongen)</span></td>
-                    <td class="td_sunday_extra"><span class="sub_header">SÖNDAG helgdag<br />25/12-8/1 samt 19/2-15/4</span></td>
-                </tr>
-                <tr>
-                    <td class="td_leftCol"><p>Funäsdalens Bussplan<br />Hotell Funäsdalen</p></td>
-                    <td class="td_everyday"><p>9.40</p></td>
-                    <td class="td_weekdays"><p>14.15</p></td>
-                    <td class="td_weekdays"><p>15.40</p></td>
-                    <td class="td_sunday_season"><p>15.30</p></td>
-                    <td class="td_sunday_extra"><p>14.30</p></td>
-                </tr>
-                <tr>
-                    <td class="td_leftCol"><p>Hotell Tänndalen</p></td>
-                    <td class="td_everyday"><p>9.50</p></td>
-                    <td class="td_weekdays"><p>14.25</p></td>
-                    <td class="td_weekdays"><p>15.50</p></td>
-                    <td class="td_sunday_season"><p>15.40</p></td>
-                    <td class="td_sunday_extra"><p>14.40</p></td>
-                </tr>
-                <tr>
-                    <td class="td_leftCol"><p>Hamrafjället</p></td>
-                    <td class="td_everyday"><p>X</p></td>
-                    <td class="td_weekdays"><p>X</p></td>
-                    <td class="td_weekdays"><p>X</p></td>
-                    <td class="td_sunday_season"><p>X</p></td>
-                    <td class="td_sunday_extra"><p>X</p></td>
-                </tr>
-                <tr>
-                    <td class="td_leftCol"><p>Fjällnäs</p></td>
-                    <td class="td_everyday"><p>10:10</p></td>
-                    <td class="td_weekdays"><p>14:45</p></td>
-                    <td class="td_weekdays"><p>16:15</p></td>
-                    <td class="td_sunday_season"><p>16:00</p></td>
-                    <td class="td_sunday_extra"><p>15:00</p></td>
-                </tr>
-                <tr>
-                    <td class="td_leftCol"><p>Hamrafjället</p></td>
-                    <td class="td_everyday"><p>X</p></td>
-                    <td class="td_weekdays"><p>X</p></td>
-                    <td class="td_weekdays"><p>X</p></td>
-                    <td class="td_sunday_season"><p>X</p></td>
-                    <td class="td_sunday_extra"><p>X</p></td>
-                </tr>
-                <tr>
-                    <td class="td_leftCol"><p>Hotell Tänndalen</p></td>
-                    <td class="td_everyday"><p>10:25</p></td>
-                    <td class="td_weekdays"><p>14:55</p></td>
-                    <td class="td_weekdays"><p>16:25</p></td>
-                    <td class="td_sunday_season"><p>16:15</p></td>
-                    <td class="td_sunday_extra"><p>15:30</p></td>
-                </tr>
-                <tr>
-                    <td class="td_leftCol"><p>Funäsdalens Bussplan</p></td>
-                    <td class="td_everyday"><p>10:40 A</p></td>
-                    <td class="td_weekdays"><p>15:15</p></td>
-                    <td class="td_weekdays"><p>16:60 A</p></td>
-                    <td class="td_sunday_season"><p>16:30 A</p></td>
-                    <td class="td_sunday_extra"><p>15:30</p></td>
-                </tr>
-            </table>
-        </div>
-        <div class="timetable_wrapper">
-            <table class="timetable_table">
-                <tr>
-                    <td class="td_title td_title_green"><h2>Linje 2</h2></td>
-                    <td class="td_title td_title_green" colspan="5"><h2>Ramundbergslinjen</h2></td>
-                </tr>
-                <tr>
-                    <td class="td_leftCol"><span class="sub_header">HÅLLPLATSER</span><br /><span class="sub_header_extra">Angivna tider är tider då bussen tidigast passerar</span></td>
-                    <td class="td_everyday"><span class="sub_header">ALLA DAGAR</span></td>
-                    <td class="td_weekdays" colspan="2"><span class="sub_header">MÅNDAG-LÖRDAG helgdag</span><br /><span class="sub_header_extra">(Måndag-fredag samkörs med Länstrafikens buss)</span></td>
-                    <td class="td_sunday_season"><span class="sub_header">SÖNDAG helgdag</span><br /><span class="sub_header_extra">(hela säsongen)</span></td>
-                    <td class="td_sunday_extra"><span class="sub_header">SÖNDAG helgdag<br />25/12-8/1 samt 19/2-15/4</span></td>
-                </tr>
-                <tr>
-                    <td class="td_leftCol">Funäsdalens Bussplan<br />Hotell Funäsdalen</td>
-                    <td class="td_everyday">8:40</td>
-                    <td class="td_weekdays">14:15</td>
-                    <td class="td_weekdays">15:40</td>
-                    <td class="td_sunday_season">14:30</td>
-                    <td class="td_sunday_extra">15:30</td>
-                </tr>
-                <tr>
-                    <td class="td_leftCol">Funsdalsberget</td>
-                    <td class="td_everyday">X</td>
-                    <td class="td_weekdays">X</td>
-                    <td class="td_weekdays">X</td>
-                    <td class="td_sunday_season">X</td>
-                    <td class="td_sunday_extra">X</td>
-                </tr>
-                <tr>
-                    <td class="td_leftCol">Bruksvallarna<br />ICA Stigmyhrs</td>
-                    <td class="td_everyday">8:50</td>
-                    <td class="td_weekdays">14:35</td>
-                    <td class="td_weekdays">16:00</td>
-                    <td class="td_sunday_season">14:45</td>
-                    <td class="td_sunday_extra">15:45</td>
-                </tr>
-                <tr>
-                    <td class="td_leftCol">Ramundberget</td>
-                    <td class="td_everyday">9:10</td>
-                    <td class="td_weekdays">14:55</td>
-                    <td class="td_weekdays">16:25</td>
-                    <td class="td_sunday_season">15:00</td>
-                    <td class="td_sunday_extra">16:00</td>
-                </tr>
-                <tr>
-                    <td class="td_leftCol">Bruksvallarna<br />ICA Stigmyhrs</td>
-                    <td class="td_everyday">9:20</td>
-                    <td class="td_weekdays">15:10</td>
-                    <td class="td_weekdays">16:35</td>
-                    <td class="td_sunday_season">15:10</td>
-                    <td class="td_sunday_extra">16:10</td>
-                </tr>
-                <tr>
-                    <td class="td_leftCol">Funäsdalsberget</td>
-                    <td class="td_everyday">X</td>
-                    <td class="td_weekdays">X</td>
-                    <td class="td_weekdays">X</td>
-                    <td class="td_sunday_season">X</td>
-                    <td class="td_sunday_extra">X</td>
-                </tr>
-                <tr>
-                    <td class="td_leftCol">Funäsdalens Bussplan<br />Hotell Funäsdalen</td>
-                    <td class="td_everyday">09:40</td>
-                    <td class="td_weekdays">15:40</td>
-                    <td class="td_weekdays">17:00 A</td>
-                    <td class="td_sunday_season">15:30</td>
-                    <td class="td_sunday_extra">16:30 A</td>
-                </tr>
-            </table>
-        </div>
-        <div class="box">
-            <div class="box_header">
-                <h3 id="price_copy">Price</h3>
-            </div>
-            <div class="box_content">
-                <table style="width: 148px;float: left;border-right: 1px solid #000;">
+            <img src="../assets/images/timetable_map.png" />
+            <div class="timetable_wrapper">
+                <table class="timetable_table">
                     <tr>
-                        <td><p>Funäsdalspass</p></td>
-                        <td style="text-align: right;"><p>Gratis</p></td>
+                        <td class="td_title td_title_red"><h2>Linje 1</h2></td>
+                        <td class="td_title td_title_red" colspan="5"><h2>Tänndalslinjen</h2></td>
                     </tr>
                     <tr>
-                        <td><p>Spårkort</p></td>
-                        <td style="text-align: right;"><p>Gratis</p></td>
+                        <td class="td_leftCol"><span class="sub_header">HÅLLPLATSER</span><br /><span class="sub_header_extra">Angivna tider är tider då bussen tidigast passerar</span></td>
+                        <td class="td_everyday"><span class="sub_header">ALLA DAGAR</span></td>
+                        <td class="td_weekdays" colspan="2"><span class="sub_header">MÅNDAG-LÖRDAG helgfri</span><br /><span class="sub_header_extra">(Måndag-fredag samkörs med Länstrafikens buss)</span></td>
+                        <td class="td_sunday_season"><span class="sub_header">SÖNDAG helgdag</span><br /><span class="sub_header_extra">(hela säsongen)</span></td>
+                        <td class="td_sunday_extra"><span class="sub_header">SÖNDAG helgdag<br />25/12-8/1 samt 19/2-15/4</span></td>
                     </tr>
                     <tr>
-                        <td><p>Veckokort</p></td>
-                        <td style="text-align: right;"><p>250:-</p></td>
+                        <td class="td_leftCol"><p>Funäsdalens Bussplan<br />Hotell Funäsdalen</p></td>
+                        <td class="td_everyday"><p>9.40</p></td>
+                        <td class="td_weekdays"><p>14.15</p></td>
+                        <td class="td_weekdays"><p>15.40</p></td>
+                        <td class="td_sunday_season"><p>15.30</p></td>
+                        <td class="td_sunday_extra"><p>14.30</p></td>
                     </tr>
                     <tr>
-                        <td><p>Dagkort</p></td>
-                        <td style="text-align: right;"><p>80:-</p></td>
-                    </tr>
-                </table>
-                <table style="width: 144px;float: left;">
-                    <tr>
-                        <td><p>Enkel 1 dalgång</p></td>
-                        <td style="text-align: right;"><p>40:-</p></td>
+                        <td class="td_leftCol"><p>Hotell Tänndalen</p></td>
+                        <td class="td_everyday"><p>9.50</p></td>
+                        <td class="td_weekdays"><p>14.25</p></td>
+                        <td class="td_weekdays"><p>15.50</p></td>
+                        <td class="td_sunday_season"><p>15.40</p></td>
+                        <td class="td_sunday_extra"><p>14.40</p></td>
                     </tr>
                     <tr>
-                        <td><p style="9px">Ex. Fjällnäs - Funäsdalen</p></td>
-                        <td style="text-align: right;"></td>
+                        <td class="td_leftCol"><p>Hamrafjället</p></td>
+                        <td class="td_everyday"><p>X</p></td>
+                        <td class="td_weekdays"><p>X</p></td>
+                        <td class="td_weekdays"><p>X</p></td>
+                        <td class="td_sunday_season"><p>X</p></td>
+                        <td class="td_sunday_extra"><p>X</p></td>
                     </tr>
                     <tr>
-                        <td><p>Enkel 2 dalgångar</p></td>
-                        <td style="text-align: right;"><p>80:-</p></td>
+                        <td class="td_leftCol"><p>Fjällnäs</p></td>
+                        <td class="td_everyday"><p>10:10</p></td>
+                        <td class="td_weekdays"><p>14:45</p></td>
+                        <td class="td_weekdays"><p>16:15</p></td>
+                        <td class="td_sunday_season"><p>16:00</p></td>
+                        <td class="td_sunday_extra"><p>15:00</p></td>
                     </tr>
                     <tr>
-                        <td><p style="9px">Ex. Fjällnäs - Fuänsdalen - Ramundberget</p></td>
-                        <td style="text-align: right;"></td>
+                        <td class="td_leftCol"><p>Hamrafjället</p></td>
+                        <td class="td_everyday"><p>X</p></td>
+                        <td class="td_weekdays"><p>X</p></td>
+                        <td class="td_weekdays"><p>X</p></td>
+                        <td class="td_sunday_season"><p>X</p></td>
+                        <td class="td_sunday_extra"><p>X</p></td>
+                    </tr>
+                    <tr>
+                        <td class="td_leftCol"><p>Hotell Tänndalen</p></td>
+                        <td class="td_everyday"><p>10:25</p></td>
+                        <td class="td_weekdays"><p>14:55</p></td>
+                        <td class="td_weekdays"><p>16:25</p></td>
+                        <td class="td_sunday_season"><p>16:15</p></td>
+                        <td class="td_sunday_extra"><p>15:30</p></td>
+                    </tr>
+                    <tr>
+                        <td class="td_leftCol"><p>Funäsdalens Bussplan</p></td>
+                        <td class="td_everyday"><p>10:40 A</p></td>
+                        <td class="td_weekdays"><p>15:15</p></td>
+                        <td class="td_weekdays"><p>16:60 A</p></td>
+                        <td class="td_sunday_season"><p>16:30 A</p></td>
+                        <td class="td_sunday_extra"><p>15:30</p></td>
                     </tr>
                 </table>
             </div>
-        </div>
+            <div class="timetable_wrapper">
+                <table class="timetable_table">
+                    <tr>
+                        <td class="td_title td_title_green"><h2>Linje 2</h2></td>
+                        <td class="td_title td_title_green" colspan="5"><h2>Ramundbergslinjen</h2></td>
+                    </tr>
+                    <tr>
+                        <td class="td_leftCol"><span class="sub_header">HÅLLPLATSER</span><br /><span class="sub_header_extra">Angivna tider är tider då bussen tidigast passerar</span></td>
+                        <td class="td_everyday"><span class="sub_header">ALLA DAGAR</span></td>
+                        <td class="td_weekdays" colspan="2"><span class="sub_header">MÅNDAG-LÖRDAG helgdag</span><br /><span class="sub_header_extra">(Måndag-fredag samkörs med Länstrafikens buss)</span></td>
+                        <td class="td_sunday_season"><span class="sub_header">SÖNDAG helgdag</span><br /><span class="sub_header_extra">(hela säsongen)</span></td>
+                        <td class="td_sunday_extra"><span class="sub_header">SÖNDAG helgdag<br />25/12-8/1 samt 19/2-15/4</span></td>
+                    </tr>
+                    <tr>
+                        <td class="td_leftCol"><p>Funäsdalens Bussplan<br />Hotell Funäsdalen</p></td>
+                        <td class="td_everyday"><p>8:40</p></td>
+                        <td class="td_weekdays"><p>14:15</p></td>
+                        <td class="td_weekdays"><p>15:40</p></td>
+                        <td class="td_sunday_season"><p>14:30</p></td>
+                        <td class="td_sunday_extra"><p>15:30</p></td>
+                    </tr>
+                    <tr>
+                        <td class="td_leftCol"><p>Funsdalsberget</p></td>
+                        <td class="td_everyday"><p>X</p></td>
+                        <td class="td_weekdays"><p>X</p></td>
+                        <td class="td_weekdays"><p>X</p></td>
+                        <td class="td_sunday_season"><p>X</p></td>
+                        <td class="td_sunday_extra"><p>X</p></td>
+                    </tr>
+                    <tr>
+                        <td class="td_leftCol"><p>Bruksvallarna<br />ICA Stigmyhrs</p></td>
+                        <td class="td_everyday"><p>8:50</p></td>
+                        <td class="td_weekdays"><p>14:35</p></td>
+                        <td class="td_weekdays"><p>16:00</p></td>
+                        <td class="td_sunday_season"><p>14:45</p></td>
+                        <td class="td_sunday_extra"><p>15:45</p></td>
+                    </tr>
+                    <tr>
+                        <td class="td_leftCol"><p>Ramundberget</p></td>
+                        <td class="td_everyday"><p>9:10<p></td>
+                        <td class="td_weekdays"><p>14:55</p></td>
+                        <td class="td_weekdays"><p>16:25</p></td>
+                        <td class="td_sunday_season"><p>15:00</p></td>
+                        <td class="td_sunday_extra"><p>16:00</p></td>
+                    </tr>
+                    <tr>
+                        <td class="td_leftCol"><p>Bruksvallarna<br />ICA Stigmyhrs</p></td>
+                        <td class="td_everyday"><p>9:20</p></td>
+                        <td class="td_weekdays"><p>15:10</p></td>
+                        <td class="td_weekdays"><p>16:35</p></td>
+                        <td class="td_sunday_season"><p>15:10</p></td>
+                        <td class="td_sunday_extra"><p>16:10</p></td>
+                    </tr>
+                    <tr>
+                        <td class="td_leftCol"><p>Funäsdalsberget</p></td>
+                        <td class="td_everyday"><p>X</p></td>
+                        <td class="td_weekdays"><p>X</p></td>
+                        <td class="td_weekdays"><p>X</p></td>
+                        <td class="td_sunday_season"><p>X</p></td>
+                        <td class="td_sunday_extra"><p>X</p></td>
+                    </tr>
+                    <tr>
+                        <td class="td_leftCol"><p>Funäsdalens Bussplan<br />Hotell Funäsdalen</p></td>
+                        <td class="td_everyday"><p>09:40</p></td>
+                        <td class="td_weekdays"><p>15:40</p></td>
+                        <td class="td_weekdays"><p>17:00 A</p></td>
+                        <td class="td_sunday_season"><p>15:30</p></td>
+                        <td class="td_sunday_extra"><p>16:30 A</p></td>
+                    </tr>
+                </table>
+            </div>
+            <div class="box">
+                <div class="box_header">
+                    <h3 id="price_copy">Price</h3>
+                </div>
+                <div class="box_content">
+                    <table style="width: 148px;float: left;border-right: 1px solid #000;">
+                        <tr>
+                            <td><p>Funäsdalspass</p></td>
+                            <td style="text-align: right;"><p>Gratis</p></td>
+                        </tr>
+                        <tr>
+                            <td><p>Spårkort</p></td>
+                            <td style="text-align: right;"><p>Gratis</p></td>
+                        </tr>
+                        <tr>
+                            <td><p>Veckokort</p></td>
+                            <td style="text-align: right;"><p>250:-</p></td>
+                        </tr>
+                        <tr>
+                            <td><p>Dagkort</p></td>
+                            <td style="text-align: right;"><p>80:-</p></td>
+                        </tr>
+                    </table>
+                    <table style="width: 144px;float: left;">
+                        <tr>
+                            <td><p>Enkel 1 dalgång</p></td>
+                            <td style="text-align: right;"><p>40:-</p></td>
+                        </tr>
+                        <tr>
+                            <td><p style="9px">Ex. Fjällnäs - Funäsdalen</p></td>
+                            <td style="text-align: right;"></td>
+                        </tr>
+                        <tr>
+                            <td><p>Enkel 2 dalgångar</p></td>
+                            <td style="text-align: right;"><p>80:-</p></td>
+                        </tr>
+                        <tr>
+                            <td><p style="9px">Ex. Fjällnäs - Fuänsdalen - Ramundberget</p></td>
+                            <td style="text-align: right;"></td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
 
-        <div class="pusher" style="height: 100px;"></div>
+            <div class="pusher" style="height: 100px;"></div>
+        </div>
     </body>
 </html>

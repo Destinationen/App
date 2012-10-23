@@ -1,0 +1,27 @@
+(function(){
+
+    var mainView;
+    var label;
+    
+    var Window = function(){
+        
+        var page = 'taxi';
+        
+        mainView = Titanium.UI.createWebView({
+            id: 'taxi',
+            url:'/window/Taxi.html',
+            backgroundColor:'transparent'
+            });
+
+        mainView.addEventListener('load', function(){
+            Ti.API.info(L('taxi_copy'));
+            var tmp = L('taxi_copy');
+            mainView.evalJS('locale_copy("'+tmp+'")');
+        });
+
+        return mainView;
+    }
+    
+    exports.Window = Window;
+
+})();

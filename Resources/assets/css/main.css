@@ -11,9 +11,11 @@
 
 body{
     margin: 40px 20px 20px;
+    font-size: 62.5%;
 }
 
 h1{
+    font-size: 6em;
     text-transform: uppercase;
     font-family: Teniers;
     font-weight: normal;

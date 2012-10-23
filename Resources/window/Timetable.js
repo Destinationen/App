@@ -10,6 +10,7 @@
         mainView = Titanium.UI.createWebView({
             id: 'timetable',
             //url: '/window/FF_Skidbuss_A4_2012.pdf',
+            scalesPageToFit: true,
             url: '/window/Timetable.html',
             backgroundColor:'transparent'
             });

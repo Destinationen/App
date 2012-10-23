@@ -1,0 +1,26 @@
+<html>
+    <head>
+        <title>Whaaat?</title>
+        <script type="text/javascript">
+            url = "http://api.funasfjallen.se/images/taxi.png";
+            //var tester = new Image(640,640);
+            var tester = document.getElementById("taxi");
+            console.log(tester);
+            /*
+            tester.onLoad = isGood;
+            tester.onError = isBad;
+            tester.src = url;
+            */
+            function isGood(){
+                console.log('is all good, show the picture man!');
+            }
+
+            function isBad(){
+                console.log('nope, no good');
+            }
+        </script>
+    </head>
+    <body>
+        <img id="taxi"></img>
+    </body>
+</html>

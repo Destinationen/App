@@ -7,7 +7,8 @@
         /**
          * This should at some point be changed to the live url
          */
-        var baseUrl = 'http://reseguide.amy.chas.se/api/';
+        //var baseUrl = 'http://api.funasfjallen.se/api';
+        var baseUrl = 'http://reseguide.amy.chas.se/api';
         
         /**
          * For some reason it seems to fail to look in, and creating files directly in a "cache" folder
@@ -33,12 +34,10 @@
          * @param   callback    Where to send tha data when we get it
          */
         var getData = function(fileName, callback){
-            Ti.API.info('Data.getData()');
 
             var useCache = false;
             
             var localFileName = getLocalFileName(fileName);
-            Ti.API.info(localFileName);
 
             var f = Ti.Filesystem.getFile( cache_dir, localFileName );
 
@@ -74,7 +73,6 @@
                     contents = JSON.parse(f.read());
                 }
                 */
-                //Ti.API.info('contents: ' + contents);
                 callCallback(callback, contents);
             }
 
@@ -87,16 +85,12 @@
          * @param   content     What we probably got from the API and want to save 
          */
         var writeCache = function(fileName, content, callback){
-            Ti.API.info('Data.writeCache("'+fileName+'", content)');
-            Ti.API.info('cache_dir: ' + cache_dir);
-            Ti.API.info('content: ' + content);
 
             var f = Ti.Filesystem.getFile(cache_dir, fileName);
             
             f.write(content);
 
             //f.move('cache/' + fileName);
-            
             
             callCallback(callback, content);
             //getData(fileName, callback);
@@ -119,7 +113,6 @@
          * @param   callback    Where to send the routes
          */
         this.getRoutes = function(callback){
-            Ti.API.info('Data.getRoutes(callback)');
             getData('routes.json', callback);
         }
         
@@ -127,7 +120,6 @@
          *
          */
         this.getPages = function(callback){
-            Ti.API.info('Data.getPages(callback)');
             getData('page.json', callback);
         }
 
@@ -135,7 +127,6 @@
          *
          */
         this.getStops = function(callback){
-            Ti.API.info('Data.getStops(callback)');
             getData('timetable/bus/stops.json', callback);
         }
         
@@ -143,7 +134,6 @@
          *
          */
         this.getDepartures = function(path, callback){
-            Ti.API.info('Data.getDepartures('+path+', callback)');
             getData('timetable/bus/' + path, callback);
         }
 
@@ -155,14 +145,11 @@
          * @param   callback    Pass on this one back to getData, as well as the fileName...
          */
         var getRemoteData = function(fileName, callback){
-            Ti.API.info('Data.getRemoteData()');
             
             var url = baseUrl + fileName;
 
             var xhr = Ti.Network.createHTTPClient({
                 onload: function(e) {
-                    //Ti.API.debug(this.responseText);
-                    Ti.API.info('API communication successful');
 
                     var response = this.responseText;
                     var localFileName = getLocalFileName(fileName);
@@ -171,8 +158,6 @@
                     //getData(fileName, callback);
                 },
                 onerror: function(e) {
-                    Ti.API.info('API communication failed');
-                    Ti.API.info(url);
                     Ti.API.debug(e.error);
                     //alert('error');
                     getRemoteData(filename, callback);

@@ -8,15 +8,11 @@
         
         var page = 'about';
         
-
         mainView = Titanium.UI.createWebView({
             id: 'about',
             url:'/window/About.html',
             backgroundColor:'transparent'
             });
-
-
-
 
         mainView.addEventListener('load', function(){
             Ti.API.info(L('about_copy'));

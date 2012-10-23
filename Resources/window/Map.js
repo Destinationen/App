@@ -1,7 +1,7 @@
 (function() {
 
     var mainWindow;
-    var mapPopUp, annotationInfo, mapResultsView, timeTableView, timeTablePopUp;
+    var mapPopUp, annotationInfo, mapResultsView, ttv, timeTableView, timeTablePopUp;
     var picker_view, picker_date, picker_stop;
     var mapView;
     var loadingLabel;
@@ -9,7 +9,10 @@
     var tmpStopBtn, saveToCalendarBtn, closeBtn, searchBtn, backBtn;
     var travelFromStopBtn, travelToStopBtn;
     var travelTime;
+    var ATC;
     
+    var testvar = "meneee";
+
     var g;
     var g_selected;
 
@@ -20,22 +23,36 @@
 
     var MapObj = require('/app/lib/Map').Map;    
     this.Map = new MapObj();
+ 
+    var ATCObj = require('/app/lib/addToCalendar');
+    this.ATC = new ATCObj();
     
+   
     Date = require('/app/lib/date').Date;
     
+    var traveldata = {
+                        'from': {
+                                'title': '',
+                                'id': ''},
+                        'to': {
+                                'title': '',
+                                'id': ''},
+                        'date': {
+                                'raw': '',
+                                'string': ''
+                                }
+                    };
+
     /**
      * Callback for saving the stops for l8ter use in travelplans
      */
     var SaveStops = function(_stops){
-        Ti.API.info('Saving Stops! ' + _stops);
         var resources = eval( '(' + _stops + ')' );
         
         stops = resources;
 
         // I think this will be enough, otherwise we have to create some queue
         initPopUp();
-
-        //Data.getRoutes(PopulateRoutes);
     }
     
     // Go back from timetable to search view
@@ -52,14 +69,32 @@
      * Callback for creating a timetable of the possible departure dates
      */
     var ListDepartures = function(_results){
+
         Ti.API.info('List Departures!');
         var results = eval('('+_results+')');
-        
         Ti.API.info(results);
+        var that = this;
+
+        var headerTitleLabel = Ti.UI.createLabel({
+            text: traveldata.from.title + ' - ' + traveldata.to.title + '\n' + traveldata.date.string,
+            font: {fontSize:16, fontWeight: 'bold'},
+            width: 'auto',
+            textAlign: 'left',
+            left: 10,
+            height: 'auto'
+        });
+        
+        ttv = Ti.UI.createView({
+            top: 45,
+            height: 60
+        });
+        ttv.add(headerTitleLabel);
 
         timeTableView = Ti.UI.createTableView({
-            style:Titanium.UI.iPhone.TableViewStyle.GROUPED
+            style:Titanium.UI.iPhone.TableViewStyle.GROUPED,
+            headerView: ttv
         });
+        
         var data = new Array();
         var numTrips = results.length;
         
@@ -69,6 +104,8 @@
             return false;
         }
         
+        // Localeize this at some point
+        mapPopUp.title = "Search";
         
         for (var t=0;t<numTrips;t++){
             var numRows = results[t].length;
@@ -79,57 +116,38 @@
             var rowLine = results[t][0].line;
             var rowDeparture = results[t][0].departure;
             
-            var titleLabel = Ti.UI.createLabel({
-                text: rowName,
-                font: {fontSize:16, fontWeight: 'bold'},
-                width: 'auto',
-                textAlign: 'left',
-                top: 10,
-                left: 10,
-                height: 16
-            });
-
-            var timeLabel = Ti.UI.createLabel({
-                text: rowDeparture.date,
-                font: {fontSize:12, fontWeight: 'bold'},
-                width: 'auto',
-                textAlign: 'right',
-                top: 11,
-                right: 10,
-                height: 12
-            });
-            
-            
             var row = new Object();
-            row.isParent = true;
-            row.opened = false;
-            row.title = rowName + ' ' + new Date.parse(rowDeparture.date).toString("HH:mm")
-            //row.add(titleLabel);
-            //row.add(timeLabel);
-            //row.hasChildren=true;
-            row.className = 'TimeTableRowParent';
-            //data.push(row);
-            
-            // Create a subtableview for the stops
-            //var tmpSubList = Ti.UI.createTableView();
-            var subdata = new Array();
 
-            for (var r=1;r<numRows;r++){
-                Ti.API.info('  ' + results[t][r].stop);
-                
+            // Create a subtableview for the stops
+            var subdata = new Array();
+            
+            // If we are within the departure and destination location
+            var within = false;
+
+            for (var r=0;r<numRows;r++){
                 var subRowId = results[t][r].stopid;
                 var subRowLineId = results[t][r].tripId;
                 var subRowName = results[t][r].stop;
                 var subRowLine = results[t][r].line;
                 var subRowDeparture = results[t][r].departure;
+
+                var atcBtn = Ti.UI.createButton({
+                    title: '>',
+                    top: 10,
+                    right: 10
+                }); 
                 
-                
+                atcBtn.addEventListener('click', function(e){
+                    //this.ATC.submit(); 
+                    Ti.API.info(this.ATC);
+                });
+
                 var subTitleLabel = Ti.UI.createLabel({
                     text: subRowName,
                     font: {fontSize:16, fontWeight: 'bold'},
                     width: 'auto',
                     textAlign: 'left',
-                    top: 10,
+                    top: 14,
                     left: 10,
                     height: 16
                 });
@@ -139,72 +157,88 @@
                     font: {fontSize:12, fontWeight: 'bold'},
                     width: 'auto',
                     textAlign: 'right',
-                    top: 11,
-                    right: 10,
+                    top: 15,
+                    right: 50,
                     height: 12
                 });
                 
                 var subRow = Ti.UI.createTableViewRow();
-                subRow.backgroundColor = "#f5f5f5";
-                //var subRow = Ti.UI.createView();
-                //var subRow = new Object();
-                //subRow.title = 'hej';
-                //subRow.title = subRowName;
+                subRow.backgroundColor = "#dcdcdc";
+                subRow.isParent = false;
+                subRow.opened = false;
                 subRow.add(subTitleLabel);
                 subRow.add(subTimeLabel);
                 
                 subRow.hasChildren=false;
                 subRow.className = 'TimeTableSubRow';
-                subdata.push(subRow);
+                
+                // Start adding when we hit the departure id
+                if (travelFromStopBtn == subRowId) {
+                    subRow.isParent = true;
+                    subRow.backgroundColor = "#ffffff";
+                    subRow.className = 'TimeTableParentRow';
+                    subRow.height = '58px';
+
+                    var destinationTitleLabel = Ti.UI.createLabel({
+                        text: traveldata.to.title,
+                        font: {fontSize: 16, fontWeight: 'bold'},
+                        width: 'auto',
+                        top: 30,
+                        left: 10,
+                        height: 16
+                    });
+                    subRow.add(destinationTitleLabel);
+
+                    var destinationTimeLabel = Ti.UI.createLabel({
+                        text: 'XX:XX',
+                        font: {fontSize: 12, fontWeight: 'bold'},
+                        width: 'auto',
+                        textAlign: 'right',
+                        top: 30,
+                        right: 50,
+                        height: 12
+                    });
+                    subRow.add(destinationTimeLabel);
+
+
+
+                    row = subRow;
+                }               
+
+                if (true == within) {
+                    Ti.API.info("eh: " + subRow);
+                    subdata.push(subRow);
+                } else {
+                    //subRow.add(atcBtn);
+                }
+
+                // Start adding when we hit the departure id
+                if (traveldata.from.id == subRowId) {
+                    within = true;
+                }
+                // Stop adding when we hit the destination id
+                if (traveldata.to.id == subRowId) {
+                    within = false;
+                }
             }
-            //tmpSubList.setDate(subdata);
+            Ti.API.info(row.height);
             row.sub = subdata;
-            //row.add(tmpSubList);
+            row.hasChild = true;
             data.push(row);
-            
         }
 
-        /*
-        data.push({
-                title: "Parent 1",
-                isParent: true,
-                opened: false,
-                sub: []
-            });
-        */
-        /*
-        data.push({
-                title: "Parent 2",
-                isParent: true,
-                opened: false,
-                sub: [
-                    {
-                        title: "Child 3"
-                    },
-                    {
-                        title: "Child 4"
-                    }
-                    ]
-           });    
-        */
-
-        Ti.API.info(data);
         timeTableView.setData(data);
-        //timeTablePopUp.add(timeTableView);
-        //var tmp_label = Ti.UI.createLabel({text: 'test', top: 10, left: 10});
-        //timeTablePopUp.add(timeTableView);
-        //mapPopUp.animate({window: timeTablePopUp, transition: Ti.UI.iPhone.AnimationStyle.FLIP_FROM_LEFT });
-        //timeTablePopUp.open();
-        //mapPopUp.hide();
-       
-
         timeTableView.addEventListener('click', function(e){
+
+            var ATCObj = require('/app/lib/addToCalendar');
+            this.ATC = new ATCObj();
+            timeTableView.hide();
+            mapPopUp.add(this.ATC.getView());
             
+            /* 
             if (e.row.isParent){
                 
                 var currentIndex = e.index;
-                Ti.API.info('currentIndex: ' + currentIndex);
-                Ti.API.info('e.row.opened: ' + e.row.opened);
 
                 if (e.row.opened == true){
                     e.row.opened = 'in action';
@@ -220,30 +254,21 @@
                             timeTableView.insertRowAfter(currentIndex, e.row.sub[i]);
                     }
                     e.row.opened = true;
+
                 } else {
                     Ti.API.info('not opened, not closed');
                 }
             }
-        
+            */
         });
 
-
-
-        // Switch Search Btn to Save Btn
-        //searchBtn.hide();
-        //saveToCalendarBtn.show();
-
-        // Switch Back to map Btn to... Back to search Btn
-        //closeBtn.hide();
-        //backBtn.show();
-
         mapPopUp.setLeftNavButton(backBtn);
-        mapPopUp.setRightNavButton(saveToCalendarBtn);
+        //mapPopUp.setRightNavButton(saveToCalendarBtn);
 
         // Hide the current views
         picker_view.hide();
-
-
+        
+        //ttv.add(timeTableView);
         // Show timetable
         mapPopUp.add(timeTableView);
     }
@@ -258,38 +283,34 @@
         routes = eval( '(' + routes + ')' );
         
         Ti.API.info('PopulateRoutes()');
-        //Ti.API.info( resources );
-        
+        /*        
         // Routesa
-        /*
-        for (var i=0; i< resources.routes.length; i++){
+        for (var i = 0; i < routes.length; i++){
 
             Ti.API.info('Routes');
 
             var locations = new Array();
-            for (var u=0;u<resources.routes[i].locations.length;u++){
-                //Ti.API.info('ll ' + u);
-                var location = {latitude: resources.routes[i].locations[u].lon, longitude: resources.routes[i].locations[u].lat};
+            for (var u=0;u<routes[i].locations.length;u++){
+                var location = {latitude: routes[i].locations[u].lon, longitude: routes[i].locations[u].lat};
                 locations[u] = location;
             }
 
             Ti.API.info(locations.length);
 
             var route = {
-                name: resources.stops[i].name,
+                name: stops[i].name,
                 points: locations,
                 color: "#bd2716",
                 width: 4,
-                id: resources.stops[i].id
+                id: stops[i].id
             };
             
             Ti.API.info(route.name);
 
             mapView.addRoute(route);
         }
-        */
         //Ti.API.info('Added Map Annotations & Routes');
-
+        */
         Data.getStops(SaveStops);
     }
 
@@ -305,7 +326,7 @@
         });
         
         annotationInfo = Titanium.UI.createLabel({
-            text: 'This is just a test, fill this one with info about the annotation, susch as lat,lon.',
+            text: '',
             color: '#fff',
             textAlign: 'center',
             top: 250
@@ -321,11 +342,16 @@
        
         var todayDate = new Date.today();
         travelTime = todayDate.toString('yyyy-MM-dd');
+        
+        traveldata.date.raw = todayDate;
+        traveldata.date.string = todayDate.toString('yyyy-MM-dd');
+        
         var maxDate = new Date.today().set({month: 3}).moveToLastDayOfMonth();
 
         picker_date = Ti.UI.createPicker({
             type: Ti.UI.PICKER_TYPE_DATE,
-            minDate: todayDate,
+            //minDate: todayDate,
+            minDate: new Date(2011,0,1),
             maxDate: maxDate,
             value: todayDate,
             visible: false,
@@ -337,17 +363,19 @@
         picker_stop.addEventListener('change', function(e){
             Ti.API.info(e.row.id + '/' + e.rowIndex + '/' + e.row.title);
             
-            //Ti.API.info(e.selectedValue);
-            
             tmpStopBtn.current = e.rowIndex;
 
             // Check if its from/to
             if (tmpStopBtn.from){
-                travelFromStopBtn = e.row.id;
                 tmpStopBtn.title = 'From: ' + e.row.title;
+
+                traveldata.from.title = e.row.title;
+                traveldata.from.id = e.row.id;
             } else {
-                travelToStopBtn = e.row.id;
                 tmpStopBtn.title = 'To: ' + e.row.title;
+
+                traveldata.to.title = e.row.title;
+                traveldata.to.id = e.row.id;
             }
         });
         picker_date.addEventListener('change', function(e){
@@ -356,6 +384,10 @@
             var goodDate = new Date.parse(tmpDate);
             tmpStopBtn.title = 'On: ' + goodDate.toString('yyyy-MM-dd');
             travelTime = goodDate.toString('yyyy-MM-dd');
+            
+            traveldata.date.raw = goodDate;
+            traveldata.date.string = goodDate.toString('yyyy-MM-dd');
+            
         });
         
         picker_view.add(picker_date);
@@ -367,39 +399,41 @@
         });
         
         searchBtn.addEventListener('click', function(e){
+
+            var tmp_result = '[[{"id":2035,"tripid":53,"departure":{"date":"2012-08-28 08:40:00","timezone_type":3,"timezone":"Europe\/Berlin"},"line":"Linje 1","stop":"Fun\u00e4sdalens Bussplan","stopid":264},{"id":2036,"tripid":53,"departure":{"date":"2012-08-28 08:43:00","timezone_type":3,"timezone":"Europe\/Berlin"},"line":"Linje 1","stop":"Fun\u00e4sdalsberget","stopid":281},{"id":2037,"tripid":53,"departure":{"date":"2012-08-28 08:45:00","timezone_type":3,"timezone":"Europe\/Berlin"},"line":"Linje 1","stop":"Fun\u00e4sdalens Fj\u00e4llkamping","stopid":282},{"id":2038,"tripid":53,"departure":{"date":"2012-08-28 08:51:00","timezone_type":3,"timezone":"Europe\/Berlin"},"line":"Linje 1","stop":"Flon","stopid":283},{"id":2039,"tripid":53,"departure":{"date":"2012-08-28 08:53:00","timezone_type":3,"timezone":"Europe\/Berlin"},"line":"Linje 1","stop":"Gruvgubben","stopid":284},{"id":2040,"tripid":53,"departure":{"date":"2012-08-28 08:54:00","timezone_type":3,"timezone":"Europe\/Berlin"},"line":"Linje 1","stop":"Macken","stopid":285},{"id":2041,"tripid":53,"departure":{"date":"2012-08-28 08:54:00","timezone_type":3,"timezone":"Europe\/Berlin"},"line":"Linje 1","stop":"Bj\u00f6rkliden","stopid":286},{"id":2042,"tripid":53,"departure":{"date":"2012-08-28 08:55:00","timezone_type":3,"timezone":"Europe\/Berlin"},"line":"Linje 1","stop":"Bruksvallarna, ICA Stigmyhrs","stopid":287},{"id":2043,"tripid":53,"departure":{"date":"2012-08-28 09:10:00","timezone_type":3,"timezone":"Europe\/Berlin"},"line":"Linje 1","stop":"Ramundberget","stopid":288}],[{"id":2086,"tripid":54,"departure":{"date":"2012-08-28 14:15:00","timezone_type":3,"timezone":"Europe\/Berlin"},"line":"Linje 4","stop":"Fun\u00e4sdalens Bussplan","stopid":264},{"id":2087,"tripid":54,"departure":{"date":"2012-08-28 14:18:00","timezone_type":3,"timezone":"Europe\/Berlin"},"line":"Linje 4","stop":"Fun\u00e4sdalsberget","stopid":281},{"id":2088,"tripid":54,"departure":{"date":"2012-08-28 14:20:00","timezone_type":3,"timezone":"Europe\/Berlin"},"line":"Linje 4","stop":"Fun\u00e4sdalens Fj\u00e4llkamping","stopid":282},{"id":2089,"tripid":54,"departure":{"date":"2012-08-28 14:26:00","timezone_type":3,"timezone":"Europe\/Berlin"},"line":"Linje 4","stop":"Flon","stopid":283},{"id":2090,"tripid":54,"departure":{"date":"2012-08-28 14:28:00","timezone_type":3,"timezone":"Europe\/Berlin"},"line":"Linje 4","stop":"Gruvgubben","stopid":284},{"id":2091,"tripid":54,"departure":{"date":"2012-08-28 14:29:00","timezone_type":3,"timezone":"Europe\/Berlin"},"line":"Linje 4","stop":"Macken","stopid":285},{"id":2092,"tripid":54,"departure":{"date":"2012-08-28 14:29:00","timezone_type":3,"timezone":"Europe\/Berlin"},"line":"Linje 4","stop":"Bj\u00f6rkliden","stopid":286},{"id":2093,"tripid":54,"departure":{"date":"2012-08-28 14:35:00","timezone_type":3,"timezone":"Europe\/Berlin"},"line":"Linje 4","stop":"Bruksvallarna, ICA Stigmyhrs","stopid":287},{"id":2094,"tripid":54,"departure":{"date":"2012-08-28 14:55:00","timezone_type":3,"timezone":"Europe\/Berlin"},"line":"Linje 4","stop":"Ramundberget","stopid":288}]]';
+
+            ListDepartures(tmp_result);
+
+            /* // Just temp removed
             var tmp_error = '';
             
-            // just a test to se if the timetable is functioning
-            //var path = '8/12/2012-02-15.json';
-            //Data.getDepartures(path, ListDepartures);
-              
             // Validation
-            if (travelFromStopBtn == undefined){
+            if (traveldata.from.id == '') {
                 tmp_error = tmp_error + 'You must choose a departure bus stop. ';
             }
-
-            if (travelToStopBtn == undefined){
+            
+            if (traveldata.to.id == '') {
                 tmp_error = tmp_error + 'You must choose a destination bus stop. ';
             }
-
-            if (travelFromStopBtn == travelToStopBtn){
+            
+            if (traveldata.from.id == traveldata.to.id) {
                 tmp_error = tmp_error + 'You cant travel from and to the same bus stop. ';
             }
             
-            
-            if (!travelTime){
+            if (!traveldata.date.string) {
                 tmp_error = tmp_error + 'You must choose a departure date. ';
             }
-            
 
-            if (tmp_error == ''){
-                Ti.API.info('SEARCH IT!');
-                var path = travelFromStopBtn + '/' + travelToStopBtn + '/' + travelTime + '.json';
+            if (tmp_error == '') {
+                var path = traveldata.from.id + '/' + traveldata.to.id + '/' + traveldata.date.string + '.json';
+                alert(path);
+                Ti.API.info(path);
                 Data.getDepartures(path, ListDepartures);
             } else {
                 Ti.API.info('Nooo!! Validation failed! ' + tmp_error);
                 alert(tmp_error);
             }
+            */
         });
         
         mapPopUp.setRightNavButton(searchBtn);
@@ -492,9 +526,26 @@
             if (clickSource == 'rightButton'){
                 
                 mapPopUp.title = title;
+                // OLD
                 travelFromStopBtn = aid;
+                
+                // NEW
+                traveldata.from.id = aid;
+                traveldata.from.title = title;
 
-                Ti.API.info('aid: ' + aid);
+                var _rowData = stopsData;
+                
+                for ( var x in _rowData) {
+                    Ti.API.info( _rowData[x].title );
+                    if (title == _rowData[x].title) {
+                        mapResultsView.data[0].rows[0].current = x;
+                        break;
+                    }
+
+                }
+                Ti.API.info('current: ' + this.current);
+
+
                 mapResultsView.data[0].rows[0].title = 'From: ' + title;
                 
                 mapPopUp.open();
@@ -522,7 +573,7 @@
             mapView.addAnnotation(annotation);
         }
         
-        Ti.API.info('typeof: ' + typeof(routes));
+        Ti.API.info('routes typeof: ' + typeof(routes));
         /*
         for (var i=0; i< routes.routes.length; i++){
 
@@ -559,7 +610,6 @@
     }
 
     function Window(){
-        
 
         mainWindow = Titanium.UI.createView({
             id: 'map'
@@ -576,14 +626,12 @@
             textAlign:'center',
             width:'auto'
         });
-
         
         mapView = Map.view;
         
         mainWindow.add(mapView);
 
-
-        Ti.Geolocation.purpose = "Testing";
+        Ti.Geolocation.purpose = "By accepting you can find the closest skibus stop to your location!";
         
         if (Ti.Geolocation.locationServicesEnabled) {    
             Ti.Geolocation.accuracy = Ti.Geolocation.ACCURACY_BEST;
@@ -612,10 +660,8 @@
             Ti.API.error('geo turned off');
         }
 
-
         // Ask for the Routes
         Data.getRoutes(PopulateRoutes);
-        //Data.getStops(SaveStops);
         
         return mainWindow;
     }

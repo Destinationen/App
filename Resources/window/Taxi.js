@@ -7,8 +7,6 @@
     var Data = new DataObj();
     
     var page,tmp;
-    //var MenuObj = require('/app/lib/Menu').Menu;    
-    //var Menu = new MenuObj();
 
     var PopulatePage = function(_page){
         page = _page;
@@ -18,11 +16,22 @@
         
         mainWindow.remove(label);
         
-        webView = Titanium.UI.createWebView({url:'/window/Taxi.html', backgroundColor:'transparent'});
+        webView = Titanium.UI.createWebView({
+            id: 'about',
+            url: '/window/Taxi.html',
+            backgroundColor: 'transparent',
+            scalesPageToFit: true
+            });
+
         webView.addEventListener('load', function(){
             //Ti.API.info('webView loaded' + tmp);
             //Ti.API.info('webView loaded' + page);
-            Ti.App.fireEvent('pageReady', tmp[0]);        
+            //Ti.App.fireEvent('pageReady', tmp[0]);
+            
+            Ti.API.info(L('taxi_copy'));
+            var tmp = L('taxi_copy');
+            webView.evalJS('locale_copy("'+tmp+'")');
+
         });
         mainWindow.add(webView);
         
