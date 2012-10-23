@@ -7,8 +7,7 @@
         /**
          * This should at some point be changed to the live url
          */
-        //var baseUrl = 'http://api.funasfjallen.se/api';
-        var baseUrl = 'http://reseguide.amy.chas.se/api';
+        var baseUrl = 'http://api.funasfjallen.se/api';
         
         /**
          * For some reason it seems to fail to look in, and creating files directly in a "cache" folder
