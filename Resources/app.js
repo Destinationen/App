@@ -5,7 +5,7 @@ this.Date = require('/app/lib/date').Date;
 
 // Counter, when its done, the loading is done.
 var loadCounter = 0;
-var loadTotal = 4;
+var loadTotal = 5;
 Ti.App.addEventListener('loading.done', function(){
     loadCounter++;
     
@@ -25,6 +25,7 @@ mtimer = setInterval(function(){
     mt++;
     if (mt == timetowait){
         clearInterval(mtimer);
+        Ti.API.info("minimum loading time reached, continue if loading is done!");
         Ti.App.fireEvent('loading.done');
     }
 }, 1000);
