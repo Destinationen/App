@@ -31,22 +31,32 @@
                 top: 268
             });
 
-        toggleMenuBtn.addEventListener('click', function(e){
-                if (!menuOpenState) {
-                    menuView.top = -217 + ((iconPositions.length-1) * 35) + 5;
-                    menuOpenState = true;
-                    toggleMenuBtn.backgroundImage = '/images/menu_btn_up.png';
-                } else {
-                    menuView.top = -217;
-                    menuOpenState = false;
-                    toggleMenuBtn.backgroundImage = '/images/menu_btn.png';
-                }
-            });
-        menuView.add(toggleMenuBtn);
+    toggleMenuBtn.addEventListener('click', function(e){
+            if (!menuOpenState) {
+                menuView.animate(Titanium.UI.createAnimation({
+                    top: -217 + ((iconPositions.length-1) * 35) + 5,
+                    opacity: 1,
+                    duration: 150,
+                    curve: Ti.UI.ANIMATION_CURVE_EASE_IN
+                }));
+                menuOpenState = true;
+                toggleMenuBtn.backgroundImage = '/images/menu_btn_up.png';
+            } else {
+                menuView.animate(Titanium.UI.createAnimation({
+                    top: -217,
+                    opacity: 1,
+                    duration: 150,
+                    curve: Ti.UI.ANIMATION_CURVE_EASE_IN
+                }));
+                menuOpenState = false;
+                toggleMenuBtn.backgroundImage = '/images/menu_btn.png';
+            }
+        });
+    menuView.add(toggleMenuBtn);
 
-        // This alters the apperanse of the state
-        Ti.App.addEventListener('menu.switch', function(data){
-            for(var i=0;i<buttons.length;i++){
+    // This alters the apperanse of the state
+    Ti.App.addEventListener('menu.switch', function(data){
+        for(var i=0;i<buttons.length;i++){
                 if (buttons[i].id != data.btn){
                     buttons[i].color = "#fff";
                     buttons[i].image = 'assets/images/icons/white/' + buttons[i].backgroundDisabledImage;
