@@ -5,7 +5,7 @@
         Date = require('/app/lib/date').Date;
 
         /**
-         * The API url
+         * The API
          */
         var baseUrl = 'http://api.funasfjallen.se/api/';
         
@@ -33,7 +33,8 @@
          * @param   callback    Where to send tha data when we get it
          */
         var getData = function(fileName, callback){
-
+            
+            // define useCash variable as false, this will change below if data is fresh
             var useCache = false;
             
             var localFileName = getLocalFileName(fileName);
@@ -41,7 +42,6 @@
             var f = Ti.Filesystem.getFile( cache_dir, localFileName );
 
             if (f.exists() === true){
- 
                 var create_ts = f.createTimestamp();
                 var mod_ts = f.modificationTimestamp();
 
@@ -54,8 +54,6 @@
                 if (experationdate < mod_ts){
                     useCache = true;
                 }
-
-
             }
             
             /**
@@ -67,11 +65,7 @@
             } else {
                 var contents = f.read();
                 var ending = fileName.substring(fileName.length, fileName.length-4); 
-                /*
-                if (ending == 'json' && contents.length > 0){
-                    contents = JSON.parse(f.read());
-                }
-                */
+                
                 callCallback(callback, contents);
             }
 
@@ -86,20 +80,16 @@
         var writeCache = function(fileName, content, callback){
 
             var f = Ti.Filesystem.getFile(cache_dir, fileName);
-            
             f.write(content);
 
-            //f.move('cache/' + fileName);
-            
             callCallback(callback, content);
-            //getData(fileName, callback);
         }
         
         /**
          * call the callback on one place
          */
         var callCallback = function(callback, content){
-
+            Ti.API.info("callCallback!");
             // Fire the event that this is loaded and done
             Ti.App.fireEvent('loading.done');
 
@@ -112,6 +102,7 @@
          * @param   callback    Where to send the routes
          */
         this.getRoutes = function(callback){
+            Ti.API.info("this.getRoutes");
             getData('routes.json', callback);
         }
         
@@ -119,6 +110,7 @@
          *
          */
         this.getPages = function(callback){
+            Ti.API.info("this.getPages");
             getData('page.json', callback);
         }
 
@@ -126,6 +118,7 @@
          *
          */
         this.getStops = function(callback){
+            Ti.API.info("this.getStops");
             getData('timetable/bus/stops.json', callback);
         }
         
@@ -133,6 +126,7 @@
          *
          */
         this.getDepartures = function(path, callback){
+            Ti.API.info("this.getDepartures");
             getData('timetable/bus/' + path, callback);
         }
 
@@ -146,10 +140,10 @@
         var getRemoteData = function(fileName, callback){
             
             var url = baseUrl + fileName;
-
+            Ti.API.info("url: " + url);
             var xhr = Ti.Network.createHTTPClient({
                 onload: function(e) {
-
+                    Ti.API.info("getRemoteData onload");
                     var response = this.responseText;
                     var localFileName = getLocalFileName(fileName);
                     writeCache(localFileName, response, callback);
@@ -158,7 +152,7 @@
                 },
                 onerror: function(e) {
                     Ti.API.debug(e.error);
-                    //alert('error');
+                    alert('error');
                     getRemoteData(filename, callback);
                 },
                 timeout: 5000
@@ -167,7 +161,6 @@
             xhr.open("GET", url);
             xhr.send();
         }
-        
         
     }
     
