@@ -15,10 +15,8 @@ var loadCounter = 0;
 var loadTotal = 5;
 Ti.App.addEventListener('loading.done', function(){
     loadCounter++;
-    
+    Ti.API.info(loadCounter + "/" + loadTotal);
     if (loadCounter == loadTotal){
-        //splash.close({transition:Ti.UI.iPhone.AnimationStyle.CURL_UP});
-        //mainWindow.open();
         initApp();
     }
 });
