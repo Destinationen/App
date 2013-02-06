@@ -6,23 +6,10 @@
     var DataObj = require('app/lib/Data').Data;
     var Data = new DataObj();
     
-    /* 
-    var inter;
-    var windowDone = function(){
-        Ti.App.fireEvent('loading.done');
-        clearInterval(inter);
-    }
-    */
-    
     var Window = function(){
         
         var page = 'splash';
-        
-        //inter = setInterval("windowDone()", 2500);
-        
-        // dont work
-        //Ti.App.fireEvent('loading.done', {}, 3500);
-        
+     
         mainWindow = Titanium.UI.createWindow({
             id: 'splash',
             backgroundImage: '/images/Splash@2x.png',
@@ -40,7 +27,7 @@
             text:'Loading...',
             font:{fontSize:30,fontFamily:'ScoutCond'},
             textAlign:'center',
-            top: 210,
+            top: 325,
             width:'auto'
         });
 
