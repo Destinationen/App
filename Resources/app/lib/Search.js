@@ -326,10 +326,10 @@ Search.prototype.ListDepartures = function(_results){
             subRow.hasChildren=false;
             subRow.className = 'TimeTableSubRow';
             
-            Ti.API.info("travelFromStop eh: " + that.tmpStopBtn.from);
+            Ti.API.info("travelFromStop eh: " + this.traveldata.from.id + " / " + subRowId);
             
             // Start adding when we hit the departure id
-            if (travelFromStopBtn == subRowId) {
+            if (this.travelFromStopBtn == subRowId) {
                 subRow.isParent = true;
                 subRow.backgroundColor = "#ffffff";
                 subRow.className = 'TimeTableParentRow';
@@ -378,9 +378,9 @@ Search.prototype.ListDepartures = function(_results){
         data.push(row);
     }
 
-    timeTableView.setData(data);
+    this.timeTableView.setData(data);
 
-    timeTableView.addEventListener('click', function(e){
+    this.timeTableView.addEventListener('click', function(e){
         
         if (e.row.isParent){
             
@@ -389,7 +389,7 @@ Search.prototype.ListDepartures = function(_results){
             if (e.row.opened == true){
                 e.row.opened = 'in action';
                 for (var i=0; i < e.row.sub.length; i++){
-                    timeTableView.deleteRow(currentIndex + 1);
+                    this.timeTableView.deleteRow(currentIndex + 1);
                 }
                 e.row.opened = false;
             } else if (e.row.opened == false) {
@@ -397,7 +397,7 @@ Search.prototype.ListDepartures = function(_results){
                 Ti.API.info('e.row.sub.length: ' + e.row.sub.length);
                 for (var i=(e.row.sub.length-1); i>=0; i--){
                         Ti.API.info('currentIndex: '+currentIndex+' | e.row.sub['+i+']');
-                        timeTableView.insertRowAfter(currentIndex, e.row.sub[i]);
+                        this.timeTableView.insertRowAfter(currentIndex, e.row.sub[i]);
                 }
                 e.row.opened = true;
 
@@ -408,12 +408,11 @@ Search.prototype.ListDepartures = function(_results){
     
     });
 
-    mapPopUp.setLeftNavButton(backBtn);
-    mapPopUp.setRightNavButton(saveToCalendarBtn);
+    //mapPopUp.setLeftNavButton(backBtn);
+    //mapPopUp.setRightNavButton(saveToCalendarBtn);
 
     // Hide the current views
-    picker_view.hide();
-*/
+    //picker_view.hide();
     
     // Show timetable
     this.mapPopUp.add(this.timeTableView);
