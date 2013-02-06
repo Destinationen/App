@@ -3,6 +3,13 @@ Titanium.UI.setBackgroundColor('#000');
 
 this.Date = require('/app/lib/date').Date;
 
+var osname = Ti.Platform.osname;
+if (osname === 'iphone' || osname === 'ipad') {
+    var platform = 'ios';
+} else {
+    var platform = 'android';
+}
+
 // Counter, when its done, the loading is done.
 var loadCounter = 0;
 var loadTotal = 5;
