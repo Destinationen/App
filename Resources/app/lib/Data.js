@@ -5,9 +5,9 @@
         Date = require('/app/lib/date').Date;
 
         /**
-         * This should at some point be changed to the live url
+         * The API url
          */
-        var baseUrl = 'http://api.funasfjallen.se/api';
+        var baseUrl = 'http://api.funasfjallen.se/api/';
         
         /**
          * For some reason it seems to fail to look in, and creating files directly in a "cache" folder
