@@ -19,6 +19,8 @@ function Search() {
     this.travelTime, this.todayDate, this.maxDate;
     this.tmpStopBtn;
 
+    this.fromLabel, this.toLabel, this.dateLabel;
+
     this.traveldata = {
                         'from': {
                                 'title': '',
@@ -53,7 +55,7 @@ Search.prototype.InitializeSearchView = function() {
     Ti.API.info("Initalize");
 
     var that = this;
-/*
+    /*
     g = {
         type: 'linear',
         startPoint: { x: '0%', y: '0%' },
@@ -67,7 +69,7 @@ Search.prototype.InitializeSearchView = function() {
             width: '100%',
             backgroundGradient: g
         });
-*/
+    */
     // Create the view to hold the picker (+ toolbar)
     this.picker_view = Titanium.UI.createView({
         height: 251, //251,231
@@ -76,7 +78,7 @@ Search.prototype.InitializeSearchView = function() {
         visible: true
     });
 
-//      this.picker_view.add(bar);
+    //this.picker_view.add(bar);
 
     //searchBtn = Ti.UI.createButtonBar({
     //    labels: [L('search_btn','Search')],
@@ -111,7 +113,7 @@ Search.prototype.InitializeSearchView = function() {
         Ti.API.info(e.value);
         var tmpDate = e.value.getFullYear() + '-' + (e.value.getMonth()+1) + '-' + e.value.getDate();
         var goodDate = new Date.parse(tmpDate);
-        that.tmpStopBtn.title = 'On: ' + goodDate.toString('yyyy-MM-dd');
+        that.tmpStopBtn.text = 'On: ' + goodDate.toString('yyyy-MM-dd');
         that.travelTime = goodDate.toString('yyyy-MM-dd');
         
         that.traveldata.date.raw = goodDate;
@@ -129,13 +131,13 @@ Search.prototype.InitializeSearchView = function() {
 
         // Check if its from/to
         if (that.tmpStopBtn.from){
-            that.tmpStopBtn.title = 'From: ' + e.row.title;
+            that.tmpStopBtn.text = 'From: ' + e.row.title;
 
             that.traveldata.from.title = e.row.title;
             that.traveldata.from.id = e.row.id;
         } else {
             Ti.API.info(DataObj);
-            that.tmpStopBtn.title = 'To: ' + e.row.title;
+            that.tmpStopBtn.text = 'To: ' + e.row.title;
 
             that.traveldata.to.title = e.row.title;
             that.traveldata.to.id = e.row.id;
@@ -145,46 +147,120 @@ Search.prototype.InitializeSearchView = function() {
     // Add pickers to the picker view
     this.picker_view.add(this.picker_date);
     this.picker_view.add(this.picker_stop);
-
-    // The traveldata collector view
-    this.travelDataCollectorView = Titanium.UI.createTableView({
-        width: 300,
-        height: 130,
-        top: 30,
-        borderColor: "#ccc",
+    
+    this.searchLabelView = Ti.UI.createView({
+        width: '94%',
+        height: '130px',
+        backgroundColor: '#fff',
+        borderColor: '#999',
         borderRadius: 10,
-        borderWidth: 1,
+        borderWidth: 2,
+        top: 30
     });
+    this.searchView.add(this.searchLabelView);
+    
+    var line1 = Ti.UI.createView({
+        width: '100%',
+        height: '2px',
+        top: 45,
+        backgroundColor: '#999'
+    });
+    this.searchLabelView.add(line1);
 
-    // Add the from, to, and date buttons
-    this.travelDataCollectorView.appendRow({id: 'from', title: 'From: ', picker: this.picker_stop, from: true, color: '#000', cureent: null});
-    this.travelDataCollectorView.appendRow({id: 'to', title: 'To: ', picker: this.picker_stop, from: false, color: '#000', cureent: null});
-    this.travelDataCollectorView.appendRow({id: 'when', title: 'Date: ' + this.travelTime, picker: this.picker_date, from: false, color: '#000', current: null});
+    var line2 = Ti.UI.createView({
+        width: '100%',
+        height: '2px',
+        top: 85,
+        backgroundColor: '#999'
+    });
+    this.searchLabelView.add(line2);
 
-    this.travelDataCollectorView.addEventListener('click', function(e){
+    // Use labels instead of the tableview below
+    this.fromLabel = Ti.UI.createLabel({
+        color: '#999',
+        text: 'From: ',
+        textAlign: Ti.UI.TEXT_ALIGNMENT_LEFT,
+        backgroundColor: '#fff',
+        top: 10,
+        left: 10,
+        id: 'from',
+        current: null,
+        picker: this.picker_stop,
+        from: true,
+        width: '100%', height: '30px'
+    });
+    this.fromLabel.addEventListener('click', function(e){
+            Ti.API.info("fromLabel");
+            switchLabel(this);
+    });
+    this.searchLabelView.add(this.fromLabel);
+
+    this.toLabel = Ti.UI.createLabel({
+        color: '#999',
+        text: 'To: ',
+        textAlign: Ti.UI.TEXT_ALIGNMENT_LEFT,
+        backgroundColor: '#fff',
+        top: 50,
+        left: 10,
+        id: 'from',
+        current: null,
+        picker: this.picker_stop,
+        from: false,
+        width: '100%', height: '30px'
+    });
+    this.toLabel.addEventListener('click', function(e){
+            Ti.API.info("toLabel");
+            switchLabel(this);
+    });
+    this.searchLabelView.add(this.toLabel);
+
+    this.dateLabel = Ti.UI.createLabel({
+        color: '#999',
+        text: 'On: ' + this.travelTime,
+        textAlign: Ti.UI.TEXT_ALIGNMENT_LEFT,
+        backgroundColor: '#fff',
+        top: 90,
+        left: 10,
+        id: 'from',
+        current: null,
+        picker: this.picker_date,
+        from: false,
+        width: '100%', height: '30px'
+    });
+    this.dateLabel.addEventListener('click', function(e){
+            Ti.API.info("dateLabel");
+            switchLabel(this);
+    });
+    this.searchLabelView.add(this.dateLabel);
+    
+
+
+    switchLabel = function(moi){
         
-        var _rowData = that.travelDataCollectorView.data[0].rows;
-        for ( var x in _rowData){
-            _rowData[x].backgroundColor = '#fff';
-            _rowData[x].color = '#000';
-        }
+        // Set the color of all labels to gray
+        that.fromLabel.color = '#999';
+        that.toLabel.color = '#999';
+        that.dateLabel.color = '#999';
+        
+        // Set the color of the one we are currently using
+        moi.color = '#000';
 
-        // change color to the "isch" focus
-        this.color = '#fff';
-        this.backgroundColor = '#ccc';
+
+        
         
         // just hide them both, and the show the one we want l8ter
         that.picker_stop.visible = false;
         that.picker_date.visible = false;
         
         // Animates the picker to scroll to the current value for the selected button
-        e.row.picker.setSelectedRow(0, this.current);
+        moi.picker.setSelectedRow(0, moi.current);
 
-        e.row.picker.visible = true;
+        moi.picker.visible = true;
         that.picker_view.visible = true;
 
-        that.tmpStopBtn = this;
-    });
+        that.tmpStopBtn = moi;
+
+    }
 
     var stopsData = [];
     Ti.API.info('numStops: ' + this.stops.length);
@@ -213,8 +289,6 @@ Search.prototype.InitializeSearchView = function() {
     });
     this.searchView.add(this.searchBtn);
 
-
-    this.searchView.add(this.travelDataCollectorView);
     this.searchView.add(this.picker_view);
     
     this.initPopUp();    
