@@ -407,7 +407,7 @@ Search.prototype.ListDepartures = function(_results){
         }
     
     });
-
+    */
     //mapPopUp.setLeftNavButton(backBtn);
     //mapPopUp.setRightNavButton(saveToCalendarBtn);
 
