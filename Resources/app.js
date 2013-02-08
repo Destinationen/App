@@ -12,8 +12,9 @@ if (osname === 'iphone' || osname === 'ipad') {
 
 // Counter, when its done, the loading is done.
 var loadCounter = 0;
-var loadTotal = 5;
-Ti.App.addEventListener('loading.done', function(){
+var loadTotal = 4;
+Ti.App.addEventListener('loading.done', function(e){
+    Ti.API.info(e);
     loadCounter++;
     Ti.API.info(loadCounter + "/" + loadTotal);
     if (loadCounter == loadTotal){

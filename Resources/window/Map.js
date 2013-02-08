@@ -2,7 +2,6 @@
 
     var mainWindow;
     var mapView;
-    var loadingLabel;
     
     var g;
     var g_selected;
@@ -14,7 +13,10 @@
 
     var MapObj = require('/app/lib/Map').Map;    
     this.Map = new MapObj();
- 
+
+    var SearchObj = require('/app/lib/Search');
+    this.Search = new SearchObj();
+
    
     Date = require('/app/lib/date').Date;
     
@@ -32,67 +34,58 @@
                     };
 
     /**
-     * Callback for saving the stops for l8ter use in travelplans
-     */
-    var SaveStops = function(_stops){
-        var resources = eval( '(' + _stops + ')' );
-        
-        stops = resources;
-        // I think this will be enough, otherwise we have to create some queue
-        //initPopUp();
-    }
-    
-    // Go back from timetable to search view
-    /*
-    var goBack = function(){
-        timeTableView.hide();
-        picker_view.show();
-        mapResultsView.show();
-
-        mapPopUp.setLeftNavButton(closeBtn);
-        mapPopUp.setRightNavButton(searchBtn);
-    }
-    */
-
-    /**
      * Callback for populating the routes on the map
      * 
      * @param   routes  A JSON obj with routes
      */
-    var PopulateRoutes = function(routes){
+    var PopulateAnnotations = function(stops){
         
-        routes = eval( '(' + routes + ')' );
-        
-        Ti.API.info('PopulateRoutes()');
-                
-        // Routesa
-        for (var i = 0; i < routes.length; i++){
+        stops = eval( '(' + stops + ')' );
+        Ti.API.info(stops);
 
-            Ti.API.info('Routes');
+        Ti.API.info('Adding Map Annotations');
 
-            var locations = new Array();
-            for (var u=0;u<routes[i].locations.length;u++){
-                var location = {latitude: routes[i].locations[u].lon, longitude: routes[i].locations[u].lat};
-                locations[u] = location;
-            }
 
-            Ti.API.info(locations.length);
-
-            var route = {
-                name: stops[i].name,
-                points: locations,
-                color: "#bd2716",
-                width: 4,
-                id: stops[i].id
-            };
+        mapView.addEventListener('click',function(evt){
+            var annotation = evt.annotation;
+            var title = evt.title;
+            var aid = annotation.id;
+            var clickSource = evt.clicksource;
             
-            Ti.API.info(route.name);
+            if (clickSource == 'rightButton'){
+                Ti.API.info("open the search map!");
+                this.mapPopUp = Titanium.UI.createWindow({
+                    title: "Sök",
+                    modal: true,
+                    fullscreen: true,
+                    width: '100%',
+                    height: '100%',
+                });
+                this.mapPopUp.add(Search.getView());
+                this.mapPopUp.open();
+            }
+             
+        });
 
-            mapView.addRoute(route);
+        var stopsData = [];
+        Ti.API.info('numStops: ' + stops.length);
+        for (var i=0;i<stops.length;i++){
+
+            stopsData[i] = Ti.UI.createPickerRow({id: stops[i].id, title: stops[i].title});
+
+            var annotation = Titanium.Map.createAnnotation({
+                latitude: stops[i].longitude,
+                longitude: stops[i].latitude,
+                title: stops[i].title,
+                subtitle: L('map_annotation_more','Click to travel from'),
+                pincolor: Titanium.Map.ANNOTATION_GREEN,
+                rightButton: Titanium.UI.iPhone.SystemButton.DISCLOSURE,
+                animate: true,
+                id: stops[i].id
+            });
+            mapView.addAnnotation(annotation);
         }
-        //Ti.API.info('Added Map Annotations & Routes');
-        
-        Data.getStops(SaveStops);
+
     }
 
     function Window(){
@@ -101,18 +94,6 @@
             id: 'map'
         });
        
-        /**
-         * Just a temp thing...
-         * so we can decide when to start loading data
-         */
-        loadingLabel = Titanium.UI.createLabel({
-            color:'#999',
-            text:'Loading...',
-            font:{fontSize:20,fontFamily:'Helvetica Neue'},
-            textAlign:'center',
-            width:'auto'
-        });
-        
         mapView = Map.view;
         
         mainWindow.add(mapView);
@@ -146,7 +127,7 @@
         }
         
         // Ask for the Routes
-        Data.getRoutes(PopulateRoutes);
+        Data.getStops(PopulateAnnotations);
         
         return mainWindow;
     }
